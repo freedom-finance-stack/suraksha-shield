@@ -1,0 +1,122 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Transform": "AWS::Serverless-2016-10-31",
+    "Resources": {
+        "IrondomeLambdaRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "lambda.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "irondomelambdapolicies",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "s3:GetObject",
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "wafv2:*",
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "IrondomeLambdaFunction": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+              "Handler": "lambda.lambda_handler",
+              "Runtime": "python3.9",
+              "CodeUri": "/home/cloudshell-user/irondome/infra/aws/lambda",
+              "Role": { "Fn::GetAtt" : [ "IrondomeLambdaRole" , "Arn" ] },
+              "Environment": {
+                "Variables": {
+                    "IP_SET_NAME": "ipset-irondome-block",
+                    "REGION": "ap-south-1",
+                    "IRONDOME_API_KEY": "XXXXX"
+                }
+              }
+            }
+          },
+        "IrondomeSchedulerRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "scheduler.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "irondomeschedulerpolicies",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "lambda:InvokeFunction",
+                                    "Resource": { "Fn::GetAtt" : [ "IrondomeLambdaFunction" , "Arn" ] }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "LambdaScheduler": {
+
+            "Type" : "AWS::Scheduler::Schedule",
+            "Properties":{
+                "Description": "Scheduler to trigger AWS Irondome Lambda Function",
+                "Name": "IrondomeScheduler",
+                "ScheduleExpressionTimezone": "Asia/Calcutta",
+                "ScheduleExpression": "cron(0 0 * * ? *)",
+                "State": "ENABLED",
+                "FlexibleTimeWindow": {
+                    "MaximumWindowInMinutes" : 1,
+                    "Mode" : "FLEXIBLE"
+                },
+                "Target": {
+                    "Arn": { "Fn::GetAtt" : [ "IrondomeLambdaFunction" , "Arn" ] },
+                    "RoleArn": { "Fn::GetAtt" : [ "IrondomeSchedulerRole" , "Arn" ] }
+                }
+
+            }
+
+        }
+    }
+  }
