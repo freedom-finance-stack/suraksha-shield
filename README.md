@@ -1,4 +1,4 @@
-# irondome
+# Irondome
 An Open Source Threat Intelligence Service
 
 This repository provides an AWS CloudFormation template (`cf.json`) to create and manage a Lambda function and EventBridge scheduler for IP set management. The IP set can be used as a rule in your AWS WAF WebACL.
