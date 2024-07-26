@@ -86,7 +86,9 @@ aws cloudformation package \
 - Replace **'your-s3-bucket-name'** with the name of the S3 bucket where the artifacts will be uploaded.
 - Replace **'your-s3-prefix'** with a prefix for the S3 objects (optional).
 The command will generate a packaged-template.json file that references the uploaded artifacts.
+
 2. **Deploy the CloudFormation Template**
+
 Deploy the CloudFormation stack using the packaged template file:
 ```bash
 aws cloudformation deploy \
@@ -96,8 +98,9 @@ aws cloudformation deploy \
 ```
 - Replace **'packaged-template.json'** with the path to the packaged template file if it's located elsewhere.
 - Replace **'my-threat-intelligence-stack'** with the name you want to assign to your CloudFormation stack.
-- 
+  
 ### Next Steps
+
 **Creating and Managing the IP Set**
 The CloudFormation template will create a Lambda function and an EventBridge scheduler to manage the IP set. The IP set can then be used as a rule in your AWS WAF WebACL.
 1. Navigate to the AWS WAF console.
