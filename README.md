@@ -14,10 +14,10 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
         {
           "category": "****",
           "value": "**.**.**.**",
-          "event_timestamp": ****,
+          "event_timestamp": ***,
           "cluster_tags": "****",
           "type": "****",
-          "attributeid": ****,
+          "attributeid": ***,
           "tags": "****"
         }
       ]
