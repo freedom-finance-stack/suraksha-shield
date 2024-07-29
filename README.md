@@ -84,6 +84,7 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
         }
     }
     ```
+
 4. Update the environment variables under the Environment section as needed:
 
 -  **IP_SET_NAME**: Set this to the name you want for your IP set.
@@ -100,6 +101,7 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
         }
     }
     ```
+    
 5. Save your changes to the JSON file.
 Make sure to replace all placeholder values with your actual data and adjust the configuration according to your specific requirements.
 
