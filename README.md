@@ -91,16 +91,16 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
 -  **REGION**: Update this to the AWS region where you are deploying the resources.
 -  **IRONDOME_API_KEY**: Replace "XXXXX" with your actual API key provided by razorpay security team.
   
-  Example:
-    ```json
-    "Environment": {
-        "Variables": {
-            "IP_SET_NAME": "your-ip-set-name",
-            "REGION": "your-region",
-            "IRONDOME_API_KEY": "your-api-key"
-        }
-    }
-    ```
+      Example:
+      ```json
+      "Environment": {
+          "Variables": {
+              "IP_SET_NAME": "your-ip-set-name",
+              "REGION": "your-region",
+              "IRONDOME_API_KEY": "your-api-key"
+          }
+      }
+      ```
     
 5. Save your changes to the JSON file.
 Make sure to replace all placeholder values with your actual data and adjust the configuration according to your specific requirements.
