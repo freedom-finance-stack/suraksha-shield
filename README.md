@@ -6,7 +6,7 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
 ### API Endpoints
 
 1. IOCs API
-  - **Endpoint**: https://irondome.abc.com/v1/irondome/iocs
+  - **Endpoint**: https://irondome.razorpay.com/v1/irondome/iocs
   - **Desciption**: This API endpoint retrieves Indicators of Compromise (IOCs). IOCs are pieces of information that help identify potential threats or malicious activity.
   - **Response Format**:
     ```json
@@ -23,11 +23,11 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
       ]
     ```
 2. IOCTypes API
-  - **Endpoint**: https://irondome.abc.com/v1/irondome/ioctypes
+  - **Endpoint**: https://irondome.razorpay.com/v1/irondome/ioctypes
   - **Desciption**: This API endpoint provides a list of IOC types. IOC types categorize the different kinds of indicators used in threat intelligence.
   - **Response**: Returns a list of IOCTypes
 3. IOCCategories API
-  - **Endpoint**: https://irondome.abc.com/v1/irondome/ioccategories
+  - **Endpoint**: https://irondome.razorpay.com/v1/irondome/ioccategories
   - **Desciption**: This API endpoint returns a list of IOC categories. Categories group different IOCs into meaningful classifications to help in organizing and understanding threat data.
   - **Response**: Returns a list of IOCCategories
 
@@ -38,6 +38,7 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
 Before you start, make sure you have the following:
 - An AWS account with sufficient permissions to create CloudFormation stacks, Lambda functions, and EventBridge rules.
 - Your IP address whitelisted by the Razorpay Security Team(security@razorpay.com).
+- AWS CLI installed and configured on your local machine.
 
 ### Cloning the Repository
 
@@ -50,37 +51,25 @@ Clone the repository to your local machine:
 
 To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, follow these steps:
 
-1. Prepare the Lambda Function Code:
-- Create a Deployment package
-  Zip the [ipset.py](./infra/aws/ipset.py) file and name the ZIP file lambda.zip:
-  ```bash
-    zip -r lambda.zip ipset.py
-  ```
-- Upload the Deployment Package to S3
-  Upload the lambda.zip file to your S3 bucket:
-  ```bash
-    aws s3 cp lambda.zip s3://your-s3-bucket-name/your-code-prefix/
-  ```
-
-2. Open the [cf.json](./infra/aws/cf.json) file in your preferred text editor.
+1. Open the [cf.json](./infra/aws/cf.json) file in your preferred text editor.
 
 3. Locate the `IrondomeLambdaFunction` resource block. It should look similar to this:
 
     ```json
     "IrondomeLambdaFunction": {
-        "Type": "AWS::Serverless::Function",
-        "Properties": {
-            "Handler": "lambda.lambda_handler",
-            "Runtime": "python3.9",
-            "CodeUri": "/home/cloudshell-user/irondome",
-            "Role": { "Fn::GetAtt": ["IrondomeLambdaRole", "Arn"] },
-            "Environment": {
+            "Type": "AWS::Serverless::Function",
+            "Properties": {
+              "Handler": "lambda.lambda_handler",
+              "Runtime": "python3.9",
+              "CodeUri": "/home/cloudshell-user/irondome/infra/aws/lambda",
+              "Role": { "Fn::GetAtt" : [ "IrondomeLambdaRole" , "Arn" ] },
+              "Environment": {
                 "Variables": {
                     "IP_SET_NAME": "ipset-irondome-block",
                     "REGION": "ap-south-1",
                     "IRONDOME_API_KEY": "XXXXX"
                 }
-            }
+             }
         }
     }
     ```
@@ -127,7 +116,8 @@ The command will generate a packaged-template.json file that references the uplo
 
 2. **Deploy the CloudFormation Template**
 
-Deploy the CloudFormation stack using the packaged template file:
+    Deploy the CloudFormation stack using the packaged template file:
+
     ```bash
     aws cloudformation deploy \
         --template-file packaged-template.json \
