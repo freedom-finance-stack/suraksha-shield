@@ -104,7 +104,7 @@ To deploy the CloudFormation stack using your JSON template, follow these steps:
 
     ```bash
     aws cloudformation package \
-        --template-file ./cf.json \
+        --template-file ./infra/aws/cf.json \
         --s3-bucket your-s3-bucket-name \
         --s3-prefix your-s3-prefix \
         --output-template-file packaged-template.json \
