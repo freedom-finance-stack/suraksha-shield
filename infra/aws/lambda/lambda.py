@@ -80,15 +80,15 @@ def fetch_ioc_data():
         start_time = int(start_time.timestamp())
         end_time = int(time.time())
 
-        conn = http.client.HTTPSConnection("irondome.razorpay.com")
+        conn = http.client.HTTPSConnection("surakshashield.razorpay.com")
 
-        irondome_api = os.getenv('IRONDOME_API_KEY')
-        url = "/v1/irondome/iocs?starttime="+str(start_time)+"&endtime="+str(end_time)
+        suraksha_shield_api_key = os.getenv('SURAKSHA_SHIELD_API_KEY')
+        url = "/v1/surakshashield/iocs?starttime="+str(start_time)+"&endtime="+str(end_time)
 
 
         headers = {
         'accept': 'application/json',
-        'Authorization': 'Basic ' + irondome_api
+        'Authorization': 'Basic ' + suraksha_shield_api_key
         }
         payload = {}
         conn.request("GET", url, payload, headers)
@@ -101,7 +101,7 @@ def fetch_ioc_data():
             print(f"Successfully fetched IOC data from API")
             return data_type
         else:
-            print("Invalid response from Irondome Service, and the status code is " + str(res.status))
+            print("Invalid response from Suraksha Shield Service, and the status code is " + str(res.status))
     except Exception as e:
         print(f"Error fetching IOC data from API: {e}")
 
@@ -122,10 +122,10 @@ def lambda_handler(event, context):
 
             ipset_id = ip_set["Id"]
 
-            # Fetching the IP's from Irondome Service
-            irondome_iocs = fetch_ioc_data()
-            if irondome_iocs and "response" in irondome_iocs:
-                response = irondome_iocs["response"]
+            # Fetching the IP's from Suraksha Shield Service
+            suraksha_shield_iocs = fetch_ioc_data()
+            if suraksha_shield_iocs and "response" in suraksha_shield_iocs:
+                response = suraksha_shield_iocs["response"]
                 # Collect all the IP's
                 ips = [ item["value"] for item in response if item["category"] == "Network activity" ]
                 print(len(ips))
@@ -133,4 +133,4 @@ def lambda_handler(event, context):
                 # Add IP's to IPAddress
                 add_ip_to_set(client, ipset_id, ips)
             else:
-                print("No data from Irondome")
+                print("No data from Suraksha Shield")

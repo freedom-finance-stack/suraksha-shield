@@ -55,7 +55,7 @@
                 "Variables": {
                     "IP_SET_NAME": "ipset-suraksha-shield-block",
                     "REGION": "ap-south-1",
-                    "SURAKSHASHIELD_API_KEY": "XXXXX"
+                    "SURAKSHA_SHIELD_API_KEY": "XXXXX"
                 }
               }
             }
@@ -100,7 +100,7 @@
         "LambdaScheduler": {
             "Type" : "AWS::Scheduler::Schedule",
             "Properties":{
-                "Description": "Scheduler to trigger AWS SurakshaShield Lambda Function",
+                "Description": "Scheduler to trigger AWS Suraksha Shield Lambda Function",
                 "Name": "SurakshaShieldScheduler",
                 "ScheduleExpressionTimezone": "Asia/Calcutta",
                 "ScheduleExpression": "cron(0 0 * * ? *)",
