@@ -49,11 +49,11 @@
             "Properties": {
               "Handler": "lambda.lambda_handler",
               "Runtime": "python3.9",
-              "CodeUri": "/home/cloudshell-user/surakshashield/infra/aws/lambda",
+              "CodeUri": "/home/cloudshell-user/suraksha-shield/infra/aws/lambda",
               "Role": { "Fn::GetAtt" : [ "SurakshaShieldLambdaRole" , "Arn" ] },
               "Environment": {
                 "Variables": {
-                    "IP_SET_NAME": "ipset-surakshashield-block",
+                    "IP_SET_NAME": "ipset-suraksha-shield-block",
                     "REGION": "ap-south-1",
                     "SURAKSHASHIELD_API_KEY": "XXXXX"
                 }
