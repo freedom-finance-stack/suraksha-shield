@@ -1,4 +1,4 @@
-# Irondome
+# Suraksha Shield
 An Open Source Threat Intelligence Service
 
 This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/cf.json)) to create and manage a Lambda function and EventBridge scheduler for IP set management. The IP set can be used as a rule in your AWS WAF WebACL.
@@ -6,8 +6,8 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
 ### API Endpoints
 
 1. IOCs API
-  - **Endpoint**: https://irondome.razorpay.com/v1/irondome/iocs
-  - **Desciption**: This API endpoint retrieves Indicators of Compromise (IOCs). IOCs are pieces of information that help identify potential threats or malicious activity.
+  - **Endpoint**: https://surakshashield.razorpay.com/v1/irondome/iocs
+  - **Description**: This API endpoint retrieves Indicators of Compromise (IOCs). IOCs are pieces of information that help identify potential threats or malicious activity.
   - **Response Format**:
     ```json
       [
@@ -23,12 +23,12 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
       ]
     ```
 2. IOCTypes API
-  - **Endpoint**: https://irondome.razorpay.com/v1/irondome/ioctypes
-  - **Desciption**: This API endpoint provides a list of IOC types. IOC types categorize the different kinds of indicators used in threat intelligence.
+  - **Endpoint**: https://surakshashield.razorpay.com/v1/irondome/ioctypes
+  - **Description**: This API endpoint provides a list of IOC types. IOC types categorize the different kinds of indicators used in threat intelligence.
   - **Response**: Returns a list of IOCTypes
 3. IOCCategories API
-  - **Endpoint**: https://irondome.razorpay.com/v1/irondome/ioccategories
-  - **Desciption**: This API endpoint returns a list of IOC categories. Categories group different IOCs into meaningful classifications to help in organizing and understanding threat data.
+  - **Endpoint**: https://surakshashield.razorpay.com/v1/irondome/ioccategories
+  - **Description**: This API endpoint returns a list of IOC categories. Categories group different IOCs into meaningful classifications to help in organizing and understanding threat data.
   - **Response**: Returns a list of IOCCategories
 
 ## Getting Started
@@ -44,8 +44,8 @@ Before you start, make sure you have the following:
 
 Clone the repository to your local machine:
   ```bash
-   git clone https://github.com/freedom-finance-stack/irondome.git
-   cd irondome
+   git clone https://github.com/freedom-finance-stack/suraksha-shield.git
+   cd suraksha-shield
   ```
 ### Editing the CloudFormation Template
 
@@ -53,21 +53,21 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
 
 1. Open the [cf.json](./infra/aws/cf.json) file in your preferred text editor.
 
-3. Locate the `IrondomeLambdaFunction` resource block. It should look similar to this:
+3. Locate the `SurakshaShieldLambdaFunction` resource block. It should look similar to this:
 
     ```json
-    "IrondomeLambdaFunction": {
+    "SurakshaShieldLambdaFunction": {
             "Type": "AWS::Serverless::Function",
             "Properties": {
               "Handler": "lambda.lambda_handler",
               "Runtime": "python3.9",
-              "CodeUri": "/home/cloudshell-user/irondome/infra/aws/lambda",
-              "Role": { "Fn::GetAtt" : [ "IrondomeLambdaRole" , "Arn" ] },
+              "CodeUri": "/home/cloudshell-user/suraksha-shield/infra/aws/lambda",
+              "Role": { "Fn::GetAtt" : [ "SurakshaShieldLambdaRole" , "Arn" ] },
               "Environment": {
                 "Variables": {
-                    "IP_SET_NAME": "ipset-irondome-block",
+                    "IP_SET_NAME": "ipset-suraksha-shield-block",
                     "REGION": "ap-south-1",
-                    "IRONDOME_API_KEY": "XXXXX"
+                    "SURAKSHASHIELD_API_KEY": "XXXXX"
                 }
              }
         }
@@ -78,7 +78,7 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
 
 -  **IP_SET_NAME**: Set this to the name you want for your IP set.
 -  **REGION**: Update this to the AWS region where you are deploying the resources.
--  **IRONDOME_API_KEY**: Replace "XXXXX" with your actual API key provided by razorpay security team.
+-  **SURAKSHASHIELD_API_KEY**: Replace "XXXXX" with your actual API key provided by razorpay security team.
   
       Example:
       ```json
@@ -86,7 +86,7 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
           "Variables": {
               "IP_SET_NAME": "your-ip-set-name",
               "REGION": "your-region",
-              "IRONDOME_API_KEY": "your-api-key"
+              "SURAKSHASHIELD_API_KEY": "your-api-key"
           }
       }
       ```
