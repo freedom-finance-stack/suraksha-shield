@@ -55,7 +55,7 @@
                 "Variables": {
                     "IP_SET_NAME": "ipset-suraksha-shield-block",
                     "REGION": "ap-south-1",
-                    "SURAKSHA_SHIELD_API_KEY": "XXXXX"
+                    "SURAKSHASHIELD_API_KEY": "XXXXX"
                 }
               }
             }
