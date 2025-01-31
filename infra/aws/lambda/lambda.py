@@ -82,7 +82,7 @@ def fetch_ioc_data():
 
         conn = http.client.HTTPSConnection("surakshashield.razorpay.com")
 
-        suraksha_shield_api_key = os.getenv('SURAKSHA_SHIELD_API_KEY')
+        suraksha_shield_api_key = os.getenv('SURAKSHASHIELD_API_KEY')
         url = "/v1/surakshashield/iocs?starttime="+str(start_time)+"&endtime="+str(end_time)
 
 
