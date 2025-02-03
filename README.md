@@ -6,7 +6,7 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
 ### API Endpoints
 
 1. IOCs API
-  - **Endpoint**: https://surakshashield.razorpay.com/v1/irondome/iocs
+  - **Endpoint**: https://surakshashield.razorpay.com/v1/surakshashield/iocs
   - **Description**: This API endpoint retrieves Indicators of Compromise (IOCs). IOCs are pieces of information that help identify potential threats or malicious activity.
   - **Response Format**:
     ```json
@@ -14,20 +14,20 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
         {
           "category": "****",
           "value": "**.**.**.**",
-          "event_timestamp": ***,
+          "event_timestamp": "***",
           "cluster_tags": "****",
           "type": "****",
-          "attributeid": ***,
+          "attributeid": "***",
           "tags": "****"
         }
       ]
     ```
 2. IOCTypes API
-  - **Endpoint**: https://surakshashield.razorpay.com/v1/irondome/ioctypes
+  - **Endpoint**: https://surakshashield.razorpay.com/v1/surakshashield/ioctypes
   - **Description**: This API endpoint provides a list of IOC types. IOC types categorize the different kinds of indicators used in threat intelligence.
   - **Response**: Returns a list of IOCTypes
 3. IOCCategories API
-  - **Endpoint**: https://surakshashield.razorpay.com/v1/irondome/ioccategories
+  - **Endpoint**: https://surakshashield.razorpay.com/v1/surakshashield/ioccategories
   - **Description**: This API endpoint returns a list of IOC categories. Categories group different IOCs into meaningful classifications to help in organizing and understanding threat data.
   - **Response**: Returns a list of IOCCategories
 
