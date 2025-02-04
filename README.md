@@ -37,7 +37,6 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
 
 Before you start, make sure you have the following:
 - An AWS account with sufficient permissions to create CloudFormation stacks, Lambda functions, and EventBridge rules.
-- Use an AWS NAT Gateway and run the Lambda function inside a VPC that allows you to get a static IP. This static IP needs to be whitelisted by the Razorpay Security Team (security@razorpay.com).
 - AWS CLI installed and configured on your local machine.
 
 ### Cloning the Repository
@@ -69,6 +68,10 @@ To configure the [cf.json](./infra/aws/cf.json) file for your Lambda function, f
                     "REGION": "ap-south-1",
                     "SURAKSHASHIELD_API_KEY": "XXXXX"
                 }
+             },
+             "VpcConfig": {
+                "SecurityGroupIds": ["sg-xxxxxxxx"],
+                "SubnetIds": ["subnet-xxxxxxxx"]
              }
         }
     }
@@ -126,7 +129,11 @@ The command will generate a packaged-template.json file that references the uplo
     ```
 - Replace **'packaged-template.json'** with the path to the packaged template file if it's located elsewhere.
 - Replace **'my-threat-intelligence-stack'** with the name you want to assign to your CloudFormation stack.
-  
+
+3. **Set Up AWS NAT Gateway and VPC**
+
+   After deploying the CloudFormation stack, set up an AWS NAT Gateway and run the Lambda function inside a VPC to get a static IP. This static IP needs to be whitelisted by the Razorpay Security Team (security@razorpay.com).
+
 ### Next Steps
 
 **Creating and Managing the IP Set**
