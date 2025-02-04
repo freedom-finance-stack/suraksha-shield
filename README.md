@@ -37,7 +37,7 @@ This repository provides an AWS CloudFormation template ([cf.json](./infra/aws/c
 
 Before you start, make sure you have the following:
 - An AWS account with sufficient permissions to create CloudFormation stacks, Lambda functions, and EventBridge rules.
-- Your IP address whitelisted by the Razorpay Security Team(security@razorpay.com).
+- Use an AWS NAT Gateway and run the Lambda function inside a VPC that allows you to get a static IP. This static IP needs to be whitelisted by the Razorpay Security Team (security@razorpay.com).
 - AWS CLI installed and configured on your local machine.
 
 ### Cloning the Repository
