@@ -134,6 +134,38 @@ The command will generate a packaged-template.json file that references the uplo
 
    After deploying the CloudFormation stack, set up an AWS NAT Gateway and run the Lambda function inside a VPC to get a static IP. This static IP needs to be whitelisted by the Razorpay Security Team (security@razorpay.com).
 
+### Steps to Set Up NAT Gateway & VPC for Static IP:
+
+1. **Create a VPC (if one doesn't exist):**
+   - Go to the VPC Console and create a new VPC.
+   - Ensure that the VPC has both private and public subnets:
+     - Private subnets for Lambda functions.
+     - Public subnet for the NAT Gateway.
+
+2. **Set Up a NAT Gateway:**
+   - Go to the VPC Console and create a NAT Gateway in the public subnet.
+   - Elastic IP (EIP): Allocate an Elastic IP for the NAT Gateway. This will be the static IP used by Lambda for outbound traffic.
+
+3. **Configure Route Tables:**
+   - Create two route tables:
+     - Public Route Table: Associate this with the public subnet and set a route to the Internet Gateway for public access.
+     - Private Route Table: Associate this with the private subnet where your Lambda function will reside. Set a route to the NAT Gateway for outbound access.
+
+4. **Update Lambda Function to Run in VPC:**
+   - After your CloudFormation stack is deployed, manually update the Lambda function configuration to run in the private subnet within the VPC.
+     - Go to the Lambda Console.
+     - Select the Lambda function you created via CloudFormation.
+     - Under the VPC section, select your newly created VPC.
+     - Choose the private subnet(s) (where the Lambda function should run).
+     - Add the security group that is appropriate for your Lambda function (you can use an existing one or create a new security group).
+
+5. **Obtain the Static IP:**
+   - Once the NAT Gateway is configured, the Elastic IP (EIP) you allocated to the NAT Gateway will be used by your Lambda function for outbound traffic.
+   - You can find the Elastic IP in the EC2 Console.
+
+6. **Share the Static IP with Razorpay:**
+   - Once everything is set up, provide the Elastic IP from the NAT Gateway to the Razorpay Security Team (security@razorpay.com) for IP whitelisting.
+
 ### Next Steps
 
 **Creating and Managing the IP Set**
