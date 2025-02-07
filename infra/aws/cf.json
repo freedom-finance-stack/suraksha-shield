@@ -2,7 +2,7 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Transform": "AWS::Serverless-2016-10-31",
     "Resources": {
-        "IrondomeLambdaRole": {
+        "SurakshaShieldLambdaRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -24,7 +24,7 @@
                 "Path": "/",
                 "Policies": [
                     {
-                        "PolicyName": "irondomelambdapolicies",
+                        "PolicyName": "surakshashieldlambdapolicies",
                         "PolicyDocument": {
                             "Version": "2012-10-17",
                             "Statement": [
@@ -44,23 +44,23 @@
                 ]
             }
         },
-        "IrondomeLambdaFunction": {
+        "SurakshaShieldLambdaFunction": {
             "Type": "AWS::Serverless::Function",
             "Properties": {
               "Handler": "lambda.lambda_handler",
               "Runtime": "python3.9",
-              "CodeUri": "/home/cloudshell-user/irondome/infra/aws/lambda",
-              "Role": { "Fn::GetAtt" : [ "IrondomeLambdaRole" , "Arn" ] },
+              "CodeUri": "/home/cloudshell-user/suraksha-shield/infra/aws/lambda",
+              "Role": { "Fn::GetAtt" : [ "SurakshaShieldLambdaRole" , "Arn" ] },
               "Environment": {
                 "Variables": {
-                    "IP_SET_NAME": "ipset-irondome-block",
+                    "IP_SET_NAME": "ipset-suraksha-shield-block",
                     "REGION": "ap-south-1",
-                    "IRONDOME_API_KEY": "XXXXX"
+                    "SURAKSHASHIELD_API_KEY": "XXXXX"
                 }
               }
             }
           },
-        "IrondomeSchedulerRole": {
+        "SurakshaShieldSchedulerRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -82,14 +82,14 @@
                 "Path": "/",
                 "Policies": [
                     {
-                        "PolicyName": "irondomeschedulerpolicies",
+                        "PolicyName": "surakshashieldschedulerpolicies",
                         "PolicyDocument": {
                             "Version": "2012-10-17",
                             "Statement": [
                                 {
                                     "Effect": "Allow",
                                     "Action": "lambda:InvokeFunction",
-                                    "Resource": { "Fn::GetAtt" : [ "IrondomeLambdaFunction" , "Arn" ] }
+                                    "Resource": { "Fn::GetAtt" : [ "SurakshaShieldLambdaFunction" , "Arn" ] }
                                 }
                             ]
                         }
@@ -98,11 +98,10 @@
             }
         },
         "LambdaScheduler": {
-
             "Type" : "AWS::Scheduler::Schedule",
             "Properties":{
-                "Description": "Scheduler to trigger AWS Irondome Lambda Function",
-                "Name": "IrondomeScheduler",
+                "Description": "Scheduler to trigger AWS Suraksha Shield Lambda Function",
+                "Name": "SurakshaShieldScheduler",
                 "ScheduleExpressionTimezone": "Asia/Calcutta",
                 "ScheduleExpression": "cron(0 0 * * ? *)",
                 "State": "ENABLED",
@@ -111,12 +110,10 @@
                     "Mode" : "FLEXIBLE"
                 },
                 "Target": {
-                    "Arn": { "Fn::GetAtt" : [ "IrondomeLambdaFunction" , "Arn" ] },
-                    "RoleArn": { "Fn::GetAtt" : [ "IrondomeSchedulerRole" , "Arn" ] }
+                    "Arn": { "Fn::GetAtt" : [ "SurakshaShieldLambdaFunction" , "Arn" ] },
+                    "RoleArn": { "Fn::GetAtt" : [ "SurakshaShieldSchedulerRole" , "Arn" ] }
                 }
-
             }
-
         }
     }
-  }
+}
